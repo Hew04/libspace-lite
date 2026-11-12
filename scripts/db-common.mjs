@@ -1,4 +1,4 @@
-// Shared helpers for the db:* scripts. Plain Node — no build step needed.
+// Shared helpers for the db:* scripts. Plain Node (22.13+) — no build step or extra packages needed.
 import fs from "node:fs";
 import path from "node:path";
 
@@ -7,12 +7,19 @@ export const SNAPSHOT_DIR = path.resolve(process.cwd(), "snapshots");
 
 export const rel = (p) => path.relative(process.cwd(), p) || p;
 
-export async function openDatabase(file, options = {}) {
+/** Opens a SQLite file with the engine built into Node.js (22.13+). */
+export async function openDatabase(file, { readonly = false, fileMustExist = false } = {}) {
+  let DatabaseSync;
   try {
-    const { default: Database } = await import("better-sqlite3");
-    return new Database(file, options);
+    ({ DatabaseSync } = await import("node:sqlite"));
+  } catch {
+    fail(`This Node.js (${process.version}) has no built-in SQLite. Install Node.js 22.13 or newer (22, 24 or 26 LTS).`);
+  }
+  if (fileMustExist && !fs.existsSync(file)) fail(`No database file at ${rel(file)}.`);
+  try {
+    return new DatabaseSync(file, { readOnly: readonly });
   } catch (e) {
-    fail(`Couldn't load the SQLite driver (better-sqlite3). Run "npm install" first.\n  ${e.message}`);
+    fail(`Couldn't open ${rel(file)}: ${e.message}`);
   }
 }
 

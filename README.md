@@ -12,7 +12,7 @@ Students pick a weekday and time, see which library rooms are free, book one, an
 
 ## Getting started
 
-Requires **Node.js 20.9 or newer**.
+Requires **Node.js 22.13 or newer** (22, 24 or 26 LTS). The local database uses the SQLite engine built into Node, so there is nothing to compile.
 
 ```bash
 npm install
@@ -31,7 +31,7 @@ Open http://localhost:3000. On the first request the app creates `data/libspace.
 | `npm run db:restore -- <file>` | Replace your database with a snapshot (your current one is backed up first) |
 | `npm run db:reset` | Delete your database. It's recreated from the default data in `seed/` on the next start (stop the app first). |
 
-> **Windows note:** `better-sqlite3` ships prebuilt binaries for current Node versions. If `npm install` tries to compile it and fails, use a Node LTS release (20, 22 or 24).
+> **"ExperimentalWarning: SQLite is an experimental feature"** may appear when the app starts on Node 22 or 24. It is harmless: Node is labelling its built-in SQLite, which the app uses for the local database.
 >
 > **Upgrading from an earlier zip:** an older `data/libspace.db` is rebuilt and re-seeded automatically on start. It only ever held demo data.
 

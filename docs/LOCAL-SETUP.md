@@ -10,7 +10,7 @@ Hosting on Vercel + Turso stays possible ([DEPLOYMENT.md](DEPLOYMENT.md)) but is
 
 ## 1. One-time setup on each laptop
 
-1. **Install** [Node.js 22 LTS](https://nodejs.org) and [Git](https://git-scm.com).
+1. **Install** [Node.js](https://nodejs.org) 22.13 or newer (22, 24 or 26 LTS) and [Git](https://git-scm.com).
 2. **Accept the GitHub invite** from Hew Hao Hnam.
 3. **Clone and install:**
    ```bash
@@ -110,7 +110,8 @@ Commit changes to `seed/` through a PR so everyone shares the same defaults. `np
 
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
-| `npm install` fails building `better-sqlite3` | No prebuilt driver for your Node version | Node 22 LTS, delete `node_modules`, reinstall |
+| `[libspace] This Node.js … has no built-in SQLite` | Node.js older than 22.13 | Install Node.js 22, 24 or 26 LTS |
+| "ExperimentalWarning: SQLite is an experimental feature" at startup | Node labels its built-in SQLite (Node 22/24) | Harmless; ignore it |
 | "Port 3000 is already in use" | App already running elsewhere | Close it, or `npm run dev -- -p 3001` |
 | "Something went wrong"; terminal shows `[libspace] seed/…` | A default-data entry breaks a rule | Fix it, `npm run db:reset`, restart |
 | Teammates see different bookings | Each laptop has its own database | Expected; use snapshots |

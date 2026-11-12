@@ -181,7 +181,7 @@ Back up before risky migrations: `turso db shell libspace-prod .dump > backup-YY
 | CI fails at `npm ci` | `package-lock.json` missing or stale | `npm install`, commit the lock file |
 | Preview shows no bookings | Staging database empty | `SEED_DEMO_BOOKINGS=true` for Preview, redeploy |
 | Bookings fail after changing hours or days | Old `CHECK` constraint in the database | Table-rebuild migration (section 6) |
-| `npm install` fails building `better-sqlite3` | No prebuilt binary for your Node version | Use Node 22 LTS, or run `turso dev` and set its URL as `TURSO_DATABASE_URL` in `.env.local` |
+| `[libspace] This Node.js … has no built-in SQLite` | Node.js older than 22.13 | Install Node.js 22, 24 or 26 LTS |
 | Pushes stop deploying | Hobby plan's daily deployment limit reached | Wait for the reset; push fewer commits |
 
 ## 10. Alternative: Railway, keeping the SQLite file

@@ -1,10 +1,10 @@
 {
   "name": "libspace-lite",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "Library room booking MVP for UTeM students \u2014 Software Project Management, Assignment 1",
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "dev": "next dev",
@@ -24,11 +24,7 @@
     "react-dom": "^19.2.0",
     "server-only": "^0.0.1"
   },
-  "optionalDependencies": {
-    "better-sqlite3": "^12.4.1"
-  },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

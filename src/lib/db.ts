@@ -7,7 +7,8 @@ import { seed } from "./seed";
 /**
  * Database access for LibSpace Lite.
  *
- * - Locally (no TURSO_DATABASE_URL): a SQLite file at data/libspace.db via better-sqlite3.
+ * - Locally (no TURSO_DATABASE_URL): a SQLite file at data/libspace.db, using the SQLite engine
+ *   built into Node.js (node:sqlite, Node 22.13+). Nothing to compile or download.
  * - Deployed (TURSO_DATABASE_URL set): Turso, hosted SQLite, via @libsql/client.
  *
  * Both speak the same SQL, so the rest of the app only sees the small `Db`
@@ -61,12 +62,28 @@ async function init(): Promise<Db> {
   return db;
 }
 
-/* ---- Local file (better-sqlite3) ---------------------------------------- */
+/* ---- Local file (built-in node:sqlite) ---------------------------------- */
+
+/**
+ * Loaded with process.getBuiltinModule so the bundler never tries to resolve it.
+ * Node 22.13+ has node:sqlite without a flag (22, 24 and 26 LTS all work).
+ */
+function loadSqlite(): typeof import("node:sqlite") {
+  try {
+    const mod = process.getBuiltinModule?.("node:sqlite") as typeof import("node:sqlite") | undefined;
+    if (mod?.DatabaseSync) return mod;
+  } catch {
+    /* fall through to the friendly error */
+  }
+  throw new Error(
+    `[libspace] This Node.js (${process.version}) has no built-in SQLite. Install Node.js 22.13 or newer (22, 24 or 26 LTS).`,
+  );
+}
 
 async function openLocal(): Promise<Db> {
-  const { default: Database } = await import("better-sqlite3");
+  const { DatabaseSync } = loadSqlite();
   fs.mkdirSync(path.dirname(LOCAL_DB_PATH), { recursive: true });
-  const sqlite = new Database(LOCAL_DB_PATH);
+  const sqlite = new DatabaseSync(LOCAL_DB_PATH);
   sqlite.exec("PRAGMA journal_mode = WAL;");
   sqlite.exec("PRAGMA foreign_keys = ON;");
   sqlite.exec("PRAGMA busy_timeout = 5000;");
