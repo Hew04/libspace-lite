@@ -1,0 +1,178 @@
+[
+  {
+    "id": "DR-01",
+    "name": "Discussion Room 1",
+    "type": "Discussion room",
+    "floor": "",
+    "capacity": 8,
+    "minGroup": 5,
+    "maxHours": 2,
+    "amenities": [],
+    "description": "Main Campus library. 5–8 users, 2 hours per use."
+  },
+  {
+    "id": "DR-02",
+    "name": "Discussion Room 2",
+    "type": "Discussion room",
+    "floor": "",
+    "capacity": 8,
+    "minGroup": 5,
+    "maxHours": 2,
+    "amenities": [],
+    "description": "Main Campus library. 5–8 users, 2 hours per use."
+  },
+  {
+    "id": "DR-03",
+    "name": "Discussion Room 3",
+    "type": "Discussion room",
+    "floor": "",
+    "capacity": 8,
+    "minGroup": 5,
+    "maxHours": 2,
+    "amenities": [],
+    "description": "Main Campus library. 5–8 users, 2 hours per use."
+  },
+  {
+    "id": "DR-04",
+    "name": "Discussion Room 4",
+    "type": "Discussion room",
+    "floor": "",
+    "capacity": 8,
+    "minGroup": 5,
+    "maxHours": 2,
+    "amenities": [],
+    "description": "Main Campus library. 5–8 users, 2 hours per use."
+  },
+  {
+    "id": "DR-05",
+    "name": "Discussion Room 5",
+    "type": "Discussion room",
+    "floor": "",
+    "capacity": 8,
+    "minGroup": 5,
+    "maxHours": 2,
+    "amenities": [],
+    "description": "Main Campus library. 5–8 users, 2 hours per use."
+  },
+  {
+    "id": "DR-06",
+    "name": "Discussion Room 6",
+    "type": "Discussion room",
+    "floor": "",
+    "capacity": 8,
+    "minGroup": 5,
+    "maxHours": 2,
+    "amenities": [],
+    "description": "Main Campus library. 5–8 users, 2 hours per use."
+  },
+  {
+    "id": "CR-01",
+    "name": "Carrel Room 1",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-02",
+    "name": "Carrel Room 2",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-03",
+    "name": "Carrel Room 3",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-04",
+    "name": "Carrel Room 4",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-05",
+    "name": "Carrel Room 5",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-06",
+    "name": "Carrel Room 6",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-07",
+    "name": "Carrel Room 7",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-08",
+    "name": "Carrel Room 8",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-09",
+    "name": "Carrel Room 9",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  },
+  {
+    "id": "CR-10",
+    "name": "Carrel Room 10",
+    "type": "Carrel room",
+    "floor": "",
+    "capacity": 1,
+    "minGroup": 1,
+    "maxHours": 3,
+    "amenities": [],
+    "description": "Main Campus library. Individual study."
+  }
+]

@@ -1,0 +1,20 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
+
+# Local SQLite database (re-created and seeded automatically)
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# Database snapshots: may hold teammates' names and matric numbers; share them directly, not via git
+snapshots/
+
+# Secrets (keep .env.example)
+.env
+.env*.local
+.vercel
+
