@@ -1,8 +1,12 @@
 import {
   CLOSE_HOUR,
+  FAIX_CODE,
+  FAIX_SESSION,
   FACULTIES,
+  LEGACY_CODES,
   MAX_DURATION_HOURS,
   MAX_SESSIONS_BACK,
+  MERGER_SESSION,
   OPEN_HOUR,
   OPENING_SUMMARY,
   PROGRAMMES,
@@ -49,12 +53,15 @@ export interface MatricInfo {
   facultyShort: string;
   /** e.g. "Faculty of Information and Communication Technology" */
   facultyName: string;
+  /** True when the faculty code was retired (legacy student admitted before session 24). */
+  legacy: boolean;
   sessionCode: string;
   /** e.g. "2024/2025" */
   session: string;
   semester: 1 | 2;
   /** e.g. "Semester I" */
   semesterLabel: string;
+  /** e.g. "0567" */
   registrationNo: string;
 }
 
@@ -87,11 +94,6 @@ export function parseMatric(raw: string, now: CampusNow = nowInCampus()): Matric
   const semester = Number(m[5]);
   const registrationNo = m.slice(6, 10);
 
-  const faculty = FACULTIES[facultyCode];
-  if (!faculty) {
-    return { ok: false, error: `Digits 2–3 (faculty code ${facultyCode}) must be a UTeM faculty, 01–09 (e.g. 03 = FTMK).` };
-  }
-
   const currentYY = Number(now.date.slice(2, 4));
   const sessionYY = Number(sessionCode);
   if (sessionYY > currentYY) {
@@ -100,6 +102,20 @@ export function parseMatric(raw: string, now: CampusNow = nowInCampus()): Matric
   if (sessionYY < currentYY - MAX_SESSIONS_BACK) {
     return { ok: false, error: `Digits 4–5 (session ${sessionCode}) are too old for a current student.` };
   }
+
+  const faculty = FACULTIES[facultyCode];
+  if (!faculty) {
+    return { ok: false, error: `Digits 2–3 (faculty code ${facultyCode}) must be a UTeM faculty, 01–09 or 12.` };
+  }
+
+  if (facultyCode === FAIX_CODE && sessionYY < Number(FAIX_SESSION)) {
+    return { ok: false, error: `Digits 2–3 (faculty code ${facultyCode}) is for FAIX, which started in session ${FAIX_SESSION}.` };
+  }
+
+  if (LEGACY_CODES.includes(facultyCode as (typeof LEGACY_CODES)[number]) && sessionYY >= Number(FAIX_SESSION)) {
+    return { ok: false, error: `Digits 2–3 (faculty code ${facultyCode}) is a legacy code retired after session ${MERGER_SESSION}.` };
+  }
+
   if (semester !== 1 && semester !== 2) {
     return { ok: false, error: "Digit 6 (admission semester) must be 1 or 2." };
   }
@@ -115,6 +131,7 @@ export function parseMatric(raw: string, now: CampusNow = nowInCampus()): Matric
       facultyCode,
       facultyShort: faculty.short,
       facultyName: faculty.name,
+      legacy: Boolean(faculty.legacy),
       sessionCode,
       session: `${startYear}/${startYear + 1}`,
       semester: semester as 1 | 2,

@@ -156,7 +156,7 @@ describe("Room rules (Main Campus)", () => {
     const r = await book({ roomId: "DR-06", start: 8, end: 11 });
     assert.equal(r.status, 400);
     assert.equal((await json(r)).code, "too_long");
-    const c = await book({ roomId: "CR-02", start: 8, end: 11, groupSize: 1, matricNo: "B082410231" });
+    const c = await book({ roomId: "CR-02", start: 8, end: 11, groupSize: 1, matricNo: "B012410231" });
     assert.equal(c.status, 201);
   });
 
@@ -227,12 +227,67 @@ describe("Matric number structure", () => {
     if (r.ok) {
       assert.equal(r.info.programme, "Diploma");
       assert.equal(r.info.facultyCode, "04");
-      assert.equal(r.info.facultyShort, "FKM");
-      assert.equal(r.info.facultyName, "Faculty of Mechanical Engineering");
+      assert.equal(r.info.facultyShort, "FTKM");
+      assert.equal(r.info.facultyName, "Faculty of Mechanical Technology and Engineering");
       assert.equal(r.info.session, "2025/2026");
       assert.equal(r.info.semesterLabel, "Semester II");
       assert.equal(r.info.registrationNo, "0123");
     }
+  });
+});
+
+describe("Exception path", () => {
+  test("malformed date string is rejected", async () => {
+    const r = await book({ date: "not-a-date" });
+    assert.equal(r.status, 400);
+    assert.match((await json(r)).error, /valid date/);
+  });
+
+  test("start time at or after end time is rejected", async () => {
+    const r = await book({ start: 10, end: 10 });
+    assert.equal(r.status, 400);
+    assert.match((await json(r)).error, /after start/);
+    const r2 = await book({ start: 12, end: 10 });
+    assert.equal(r2.status, 400);
+  });
+
+  test("booking beyond 14-day window is rejected", async () => {
+    const tooFar = time.addDays(time.lastBookableDate(date), 1);
+    const r = await book({ date: tooFar });
+    assert.equal(r.status, 400);
+    assert.match((await json(r)).error, /14 days/);
+  });
+
+  test("start time before 8 AM is rejected", async () => {
+    const r = await book({ start: 6, end: 8 });
+    assert.equal(r.status, 400);
+    assert.match((await json(r)).error, /8:00 AM/);
+  });
+
+  test("FAIX faculty code (12) valid from session 24", async () => {
+    const r = await book({
+      roomId: "CR-07",
+      start: 8,
+      end: 9,
+      groupSize: 1,
+      matricNo: "B122610001",
+    });
+    assert.equal(r.status, 201);
+    const body = await json(r);
+    assert.match(body.reference, /^LS-[A-Z0-9]{6}$/);
+  });
+
+  test("legacy faculty code (07-09) rejected for session 24+", async () => {
+    const r = await book({
+      roomId: "CR-08",
+      start: 8,
+      end: 9,
+      groupSize: 1,
+      matricNo: "B072410001",
+    });
+    assert.equal(r.status, 400);
+    const body = await json(r);
+    assert.match(body.fields.matricNo, /legacy/);
   });
 });
 

@@ -42,16 +42,37 @@ export const PROGRAMMES = { B: "Bachelor's Degree", D: "Diploma" } as const;
 export type ProgrammeCode = keyof typeof PROGRAMMES;
 
 /** UTeM faculty codes (Academic Regulations, Jadual 3: Kod Fakulti). */
-export const FACULTIES: Record<string, { short: string; name: string; nameBM: string }> = {
-  "01": { short: "FKE", name: "Faculty of Electrical Engineering", nameBM: "Fakulti Kejuruteraan Elektrik" },
-  "02": { short: "FKEKK", name: "Faculty of Electronics and Computer Engineering", nameBM: "Fakulti Kejuruteraan Elektronik dan Kejuruteraan Komputer" },
-  "03": { short: "FTMK", name: "Faculty of Information and Communication Technology", nameBM: "Fakulti Teknologi Maklumat dan Komunikasi" },
-  "04": { short: "FKM", name: "Faculty of Mechanical Engineering", nameBM: "Fakulti Kejuruteraan Mekanikal" },
-  "05": { short: "FKP", name: "Faculty of Manufacturing Engineering", nameBM: "Fakulti Kejuruteraan Pembuatan" },
+export interface FacultyInfo {
+  short: string;
+  name: string;
+  nameBM: string;
+  /** True when the code was retired (legacy students keep old matric numbers until graduation). */
+  legacy?: boolean;
+}
+
+/** Session the Engineering/Engineering Technology merger took effect. Legacy codes 07–09 retired after this. */
+export const MERGER_SESSION = "23";
+
+/** FAIX faculty code. */
+export const FAIX_CODE = "12";
+
+/** Session FAIX code 12 became valid. */
+export const FAIX_SESSION = "24";
+
+/** Codes retired at the 2023 merger; still valid only for students admitted before session 24. */
+export const LEGACY_CODES = ["07", "08", "09"] as const;
+
+export const FACULTIES: Record<string, FacultyInfo> = {
+  "01": { short: "FTKE", name: "Faculty of Electrical Technology and Engineering", nameBM: "Fakulti Teknologi dan Kejuruteraan Elektrik" },
+  "02": { short: "FTKEK", name: "Faculty of Electronics and Computer Technology and Engineering", nameBM: "Fakulti Teknologi dan Kejuruteraan Elektronik dan Komputer" },
+  "03": { short: "FTMK", name: "Faculty of Information and Communications Technology", nameBM: "Fakulti Teknologi Maklumat dan Komunikasi" },
+  "04": { short: "FTKM", name: "Faculty of Mechanical Technology and Engineering", nameBM: "Fakulti Teknologi dan Kejuruteraan Mekanikal" },
+  "05": { short: "FTKIP", name: "Faculty of Industrial and Manufacturing Technology and Engineering", nameBM: "Fakulti Teknologi dan Kejuruteraan Industri dan Pembuatan" },
   "06": { short: "FPTT", name: "Faculty of Technology Management and Technopreneurship", nameBM: "Fakulti Pengurusan Teknologi dan Teknousahawanan" },
-  "07": { short: "FTK", name: "Faculty of Engineering Technology", nameBM: "Fakulti Teknologi Kejuruteraan" },
-  "08": { short: "FTKEE", name: "Faculty of Electrical and Electronic Engineering Technology", nameBM: "Fakulti Teknologi Kejuruteraan Elektrik dan Elektronik" },
-  "09": { short: "FTKMP", name: "Faculty of Mechanical and Manufacturing Engineering Technology", nameBM: "Fakulti Teknologi Kejuruteraan Mekanikal dan Pembuatan" },
+  "07": { short: "FTK", name: "Engineering Technology (Legacy)", nameBM: "Teknologi Kejuruteraan (Legasi)", legacy: true },
+  "08": { short: "FTKEE", name: "Electrical and Electronic Engineering Technology (Legacy)", nameBM: "Teknologi Kejuruteraan Elektrik dan Elektronik (Legasi)", legacy: true },
+  "09": { short: "FTKMP", name: "Mechanical and Manufacturing Engineering Technology (Legacy)", nameBM: "Teknologi Kejuruteraan Mekanikal dan Pembuatan (Legasi)", legacy: true },
+  "12": { short: "FAIX", name: "Faculty of Artificial Intelligence and Cyber Security", nameBM: "Fakulti Kecerdasan Buatan dan Keselamatan Siber" },
 };
 export const MATRIC_PATTERN = /^[BD]\d{2}\d{2}[12]\d{4}$/;
 
