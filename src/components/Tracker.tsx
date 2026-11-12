@@ -290,7 +290,7 @@ function BookingDetails({
             <input
               id="cancel-matric"
               className="input mono"
-              placeholder="B032410567"
+              placeholder="B012312345"
               maxLength={10}
               autoFocus
               value={matric}

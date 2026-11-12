@@ -71,7 +71,7 @@ export function normaliseMatric(v: string): string {
  */
 export function parseMatric(raw: string, now: CampusNow = nowInCampus()): MatricResult {
   const m = normaliseMatric(raw);
-  if (!m) return { ok: false, error: "Enter your matric number, e.g. B032410567." };
+  if (!m) return { ok: false, error: "Enter your matric number, e.g. B012312345." };
 
   const first = m[0];
   if (!(first in PROGRAMMES)) {

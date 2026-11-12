@@ -176,7 +176,7 @@ export function BookingForm({ roomId, date, start, end }: BookingFormProps) {
               id="f-studentName"
               className="input"
               autoComplete="name"
-              placeholder="e.g. Nur Aisyah binti Ahmad"
+              placeholder="YOUR NAME HERE"
               value={form.studentName}
               onChange={(e) => set("studentName", e.target.value)}
               aria-invalid={!!errors.studentName}
@@ -197,7 +197,7 @@ export function BookingForm({ roomId, date, start, end }: BookingFormProps) {
               <input
                 id="f-matricNo"
                 className="input mono"
-                placeholder="B032410567"
+                placeholder="B012312345"
                 autoCapitalize="characters"
                 autoComplete="off"
                 spellCheck={false}
