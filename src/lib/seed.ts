@@ -41,10 +41,10 @@ class SeedError extends Error {
 }
 
 function readJson<T>(file: string): T {
-  const full = path.join(SEED_DIR, file);
+  const full = path.join(/*turbopackIgnore: true*/ SEED_DIR, file);
   let text: string;
   try {
-    text = fs.readFileSync(full, "utf8");
+    text = fs.readFileSync(/*turbopackIgnore: true*/ full, "utf8");
   } catch {
     throw new SeedError(file, "file", `not found at ${full}`);
   }
