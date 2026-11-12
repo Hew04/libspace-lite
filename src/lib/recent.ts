@@ -58,3 +58,14 @@ export function rememberBooking(b: RecentBooking) {
     /* storage unavailable (private mode) — recents are optional */
   }
 }
+
+/** Removes a single recent booking by reference (visual/client-side only, DB untouched). */
+export function forgetBooking(reference: string) {
+  try {
+    const next = read().filter((x) => x.reference !== reference);
+    localStorage.setItem(KEY, JSON.stringify(next));
+    window.dispatchEvent(new Event(EVENT));
+  } catch {
+    /* storage unavailable — best effort */
+  }
+}

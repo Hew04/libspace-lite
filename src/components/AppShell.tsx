@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useRecentBookings } from "@/lib/recent";
-import { formatDate, formatHour } from "@/lib/time";
-import { GridIcon, LogoMark, MenuIcon, PlusIcon, SearchIcon, SidebarIcon, TicketIcon } from "./Icons";
+import { useRecentBookings, forgetBooking } from "@/lib/recent";
+import { formatDate, formatHour, nowInCampus, slotHasEnded } from "@/lib/time";
+import { GridIcon, LogoMark, MenuIcon, PlusIcon, SearchIcon, SidebarIcon, TicketIcon, XIcon } from "./Icons";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 
 const COLLAPSE_KEY = "libspace:sidebar-collapsed";
@@ -13,6 +13,8 @@ const COLLAPSE_KEY = "libspace:sidebar-collapsed";
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const recents = useRecentBookings();
+  const now = nowInCampus();
+  const [notFoundRefs, setNotFoundRefs] = useState<Set<string>>(new Set());
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -24,6 +26,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   // Close the mobile drawer whenever the route changes.
   useEffect(() => setMobileOpen(false), [pathname]);
+
+  // Check each recent booking against the API; mark not-found refs so they can be removed.
+  useEffect(() => {
+    let cancelled = false;
+    const checkRefs = async () => {
+      const notFound = new Set<string>();
+      await Promise.all(
+        recents.map(async (r) => {
+          try {
+            const res = await fetch(`/api/bookings/${encodeURIComponent(r.reference)}`, {
+              cache: "no-store",
+            });
+            if (res.status === 404) notFound.add(r.reference);
+          } catch {
+            /* network failure — leave ref out of notFound set */
+          }
+        }),
+      );
+      if (!cancelled) setNotFoundRefs(notFound);
+    };
+    checkRefs();
+    return () => {
+      cancelled = true;
+    };
+  }, [recents]);
 
   function toggleCollapsed() {
     setCollapsed((c) => {
@@ -97,11 +124,38 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <p className="recents-empty">Bookings you make on this device will appear here.</p>
           ) : (
             recents.map((r) => (
-              <Link key={r.reference} href={`/track?ref=${r.reference}`} className="nav-item recent-item">
-                <span className="r-title">{r.roomName}</span>
-                <span className="r-sub">
-                  {formatDate(r.date)} · {formatHour(r.start)} · <span className="mono">{r.reference}</span>
-                </span>
+              <Link
+                key={r.reference}
+                href={`/track?ref=${r.reference}`}
+                className="nav-item recent-item"
+                style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8, width: "100%" }}
+              >
+                <div style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+                  <span className="r-title">{r.roomName}</span>
+                  <span className="r-sub">
+                    {formatDate(r.date)} · {formatHour(r.start)} · <span className="mono">{r.reference}</span>
+                  </span>
+                </div>
+                {(slotHasEnded(r.date, r.end, now) || notFoundRefs.has(r.reference)) && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      forgetBooking(r.reference);
+                    }}
+                    aria-label={`Remove ${r.reference}`}
+                    style={{
+                      padding: 2,
+                      background: "transparent",
+                      border: 0,
+                      color: "var(--muted)",
+                      cursor: "pointer",
+                      flex: "none",
+                    }}
+                  >
+                    <XIcon size={12} strokeWidth={1.6} />
+                  </button>
+                )}
               </Link>
             ))
           )}
