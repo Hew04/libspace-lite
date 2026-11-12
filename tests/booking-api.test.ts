@@ -156,7 +156,7 @@ describe("Room rules (Main Campus)", () => {
     const r = await book({ roomId: "DR-06", start: 8, end: 11 });
     assert.equal(r.status, 400);
     assert.equal((await json(r)).code, "too_long");
-    const c = await book({ roomId: "CR-02", start: 8, end: 11, groupSize: 1, matricNo: "B082410231" });
+    const c = await book({ roomId: "CR-02", start: 8, end: 11, groupSize: 1, matricNo: "B012410231" });
     assert.equal(c.status, 201);
   });
 
@@ -227,8 +227,8 @@ describe("Matric number structure", () => {
     if (r.ok) {
       assert.equal(r.info.programme, "Diploma");
       assert.equal(r.info.facultyCode, "04");
-      assert.equal(r.info.facultyShort, "FKM");
-      assert.equal(r.info.facultyName, "Faculty of Mechanical Engineering");
+      assert.equal(r.info.facultyShort, "FTKM");
+      assert.equal(r.info.facultyName, "Faculty of Mechanical Technology and Engineering");
       assert.equal(r.info.session, "2025/2026");
       assert.equal(r.info.semesterLabel, "Semester II");
       assert.equal(r.info.registrationNo, "0123");
