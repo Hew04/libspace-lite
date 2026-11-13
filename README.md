@@ -203,4 +203,4 @@ User authentication, payments, IoT door locks, occupancy sensors and push notifi
 
 ## Note on AI use
 
-This MVP was generated with Claude (Anthropic) from the team's project charter and Assignment 1 report. Per the charter's AI-use agreement (§7.5), the team should review, test and adjust it, and record that in report section 10.
+This MVP was generated with Claude (Anthropic) from the team's project charter and Assignment 1 report. Per the charter's AI-use agreement (7.5), the team should review, test and adjust it, and record that in report section 10.
