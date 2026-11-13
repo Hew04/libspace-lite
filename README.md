@@ -180,7 +180,7 @@ docs/DEPLOYMENT.md  optional: hosting on Vercel + Turso
 
 ---
 
-## Test cases (charter §12 testing gate)
+## Test cases (charter 12 testing gate)
 
 `npm test` runs the API cases (32 tests, also in CI). The UI flows were also checked in a headless browser, including 360px and 390px phone widths:
 
@@ -197,7 +197,7 @@ docs/DEPLOYMENT.md  optional: hosting on Vercel + Turso
 | TC8 | Student email | Derived as `<matricNo>@student.utem.edu.my`; any other address rejected | Pass |
 | – | Other edge cases | Past date, over 3 hours, after closing, beyond 14 days, malformed JSON → 400 | Pass |
 
-## Deferred (charter §4.2 / §6.3)
+## Deferred (charter 4.2 / 6.3)
 
 User authentication, payments, IoT door locks, occupancy sensors and push notifications are deferred, as are capacity and room-type filters. The staff schedule has no login, so it's read-only and shows masked data. A simple next step would be a staff passcode set through an environment variable.
 
