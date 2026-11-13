@@ -2,7 +2,7 @@
 
 Library room booking MVP for UTeM students (Software Project Management, Assignment 1).
 
-Students pick a weekday and time, see which library rooms are free, book one, and get a reference code. They use the code to check the booking's status or cancel it. Library staff get a read-only schedule of each day's bookings. There's no login, no payment and no hardware, as defined in the project charter (§6.3).
+Students pick a weekday and time, see which library rooms are free, book one, and get a reference code. They use the code to check the booking's status or cancel it. Library staff get a read-only schedule of each day's bookings. There's no login, no payment and no hardware, as defined in the project charter (6.3).
 
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · SQLite (a local file in development, [Turso](https://turso.tech) when deployed) · plain CSS with the Catppuccin palettes (Mauve primary)
 
